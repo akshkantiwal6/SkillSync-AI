@@ -3,6 +3,7 @@ config.py – Central configuration loader for SkillSync AI.
 All secrets come from environment variables; never hardcoded.
 """
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -38,7 +39,10 @@ EMBEDDING_MODEL: str = os.getenv(
 TOP_K_DOCS: int = 5
 
 # ── Dataset ──────────────────────────────────────────────────────────────────
-DATASET_PATH: str = os.getenv("DATASET_PATH", "data/job_resume_fit.csv")
+DATASET_PATH: str = os.getenv(
+    "DATASET_PATH",
+    str(Path(__file__).resolve().parent / "data" / "job_resume_fit.csv")
+)
 
 # ── App ──────────────────────────────────────────────────────────────────────
 APP_TITLE: str = "SkillSync AI – Interview Trainer"
