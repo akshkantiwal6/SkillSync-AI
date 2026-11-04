@@ -1,178 +1,72 @@
-# SkillSync AI – AI-Powered Interview Trainer Agent
+# 🚀 SkillSync AI — Interview Trainer Agent
 
-> **AICTE × IBM Edunet Internship · Problem Statement No. 22**
+<p align="center">
+  <b>AICTE × IBM Edunet Internship | Problem Statement #22</b>
+</p>
 
-SkillSync AI is a full-featured, AI-powered mock interview trainer built with **Streamlit** and **IBM Granite** (via IBM watsonx.ai Runtime). It analyses your resume, generates personalised interview questions, evaluates your answers in real-time, identifies skill gaps, and shows a performance dashboard.
+<p align="center">
+  <a href="https://skillsync-ai-interview-trainer.streamlit.app/">
+    <img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" alt="Streamlit App">
+  </a>
+  <img src="https://img.shields.io/badge/Python-3.10+-blue?logo=python" alt="Python">
+  <img src="https://img.shields.io/badge/AI-IBM%20Granite-blue" alt="IBM Granite">
+  <img src="https://img.shields.io/badge/Status-Deployed-success" alt="Status">
+</p>
 
----
+**SkillSync AI** is an AI-powered interview preparation platform that analyzes resumes, generates personalized interview questions, evaluates answers, and identifies skill gaps.
 
-## Features
+## ✨ Features
 
-| Feature | Description |
-|---|---|
-| 📄 Resume Parsing | Upload PDF/DOCX — extracts skills, education, experience |
-| 🤖 IBM Granite AI | Generates personalised questions & evaluates answers |
-| 🔍 RAG Pipeline | FAISS-backed retrieval augments every Granite prompt |
-| 🎤 Mock Interview | Interactive Q&A with live feedback after each answer |
-| 📊 Dashboard | Plotly charts: score per question, radar, gauge, distribution |
-| 🔎 Skill Gap | Matches your skills vs. role requirements; study plan |
-| 📂 Dataset | Uses `job_resume_fit.csv` (2 385 records) for benchmarking |
-| 🛡️ Demo Mode | Full UI works without IBM credentials (canned responses) |
+* 📄 **Resume Analysis** – Extract skills, education, and experience from PDF/DOCX.
+* 🤖 **AI Question Generation** – Personalized questions based on resume and job role.
+* 🔍 **RAG Pipeline** – Context retrieval using FAISS.
+* 🎤 **Mock Interviews** – Interactive interview practice with feedback.
+* 📊 **Performance Dashboard** – Scores and visual analytics using Plotly.
+* 🎯 **Skill Gap Analysis** – Identify missing skills and improvement areas.
+* 📂 **Dataset Analysis** – Benchmarking using 2,385 records.
+* 🛡️ **Demo Mode** – Explore application workflows without IBM credentials.
 
----
+## 🛠️ Tech Stack
 
-## Quick Start
+`Python` · `Streamlit` · `IBM Granite` · `FAISS` · `Sentence Transformers` · `Pandas` · `Scikit-learn` · `Plotly`
 
-### 1. Clone / open the project
+## 📸 Application Preview
+
+*Screenshots coming soon.*
+
+## ⚙️ Run Locally
 
 ```bash
-cd "AICTE-SkillSync-AI"
-```
+git clone https://github.com/akshkantiwal6/SkillSync-AI.git
+cd SkillSync-AI
 
-### 2. Create a virtual environment
-
-```bash
 python -m venv .venv
-# Windows
 .venv\Scripts\activate
-# macOS / Linux
-source .venv/bin/activate
-```
 
-### 3. Install dependencies
-
-```bash
 pip install -r requirements.txt
-```
-
-### 4. Configure IBM credentials (optional)
-
-```bash
-cp .env.example .env
-# Edit .env and fill in WATSONX_API_KEY and WATSONX_PROJECT_ID
-```
-
-> **Demo Mode:** If you skip this step the app runs with pre-built responses — all UI flows still work.
-
-### 5. Add the dataset
-
-Place `job_resume_fit.csv` in the `data/` folder:
-
-```
-data/
-└── job_resume_fit.csv   ← drop it here
-```
-
-### 6. Run the app
-
-```bash
 streamlit run app.py
 ```
 
-The app opens at **http://localhost:8501**.
+For live IBM Granite integration, configure `WATSONX_API_KEY` and `WATSONX_PROJECT_ID` as environment variables. Without credentials, the app runs in Demo Mode with predefined responses.
 
----
+## 📁 Project Structure
 
-## Project Structure
-
-```
-AICTE-SkillSync-AI/
-├── app.py                      # Main Streamlit UI (5 pages)
-├── config.py                   # Env-var configuration
+```text
+SkillSync-AI/
+├── app.py
+├── config.py
 ├── requirements.txt
-├── .env.example                # Credential template
-├── README.md
 ├── data/
-│   └── job_resume_fit.csv      # Dataset (place here — not modified)
 ├── knowledge_base/
-│   ├── __init__.py
-│   └── interview_kb.py         # Curated interview Q&A for RAG
 └── modules/
-    ├── __init__.py
-    ├── resume_parser.py        # PDF/DOCX → structured dict
-    ├── granite_client.py       # IBM watsonx.ai / demo fallback
-    ├── rag_engine.py           # FAISS semantic retrieval
-    ├── question_generator.py   # Orchestrates RAG + Granite
-    ├── evaluator.py            # Answer scoring + feedback
-    ├── skill_gap.py            # Skill-gap report + dataset match
-    └── dashboard.py            # Plotly chart builders
 ```
 
----
+## 🎯 Objective
 
-## Pages
-
-| Page | Description |
-|---|---|
-| 🏠 Setup | Upload resume, enter job role/description, choose question counts |
-| 📋 Questions | Review generated questions by category (Technical / HR / Behavioral / Project) |
-| 🎤 Mock Interview | Answer questions one-by-one; get immediate AI feedback |
-| 📊 Dashboard | Visual performance summary: charts, scores, export |
-| 🔍 Skill Gap | AI skill-gap analysis, recommendations, dataset benchmarking |
+Making interview preparation smarter through resume intelligence, AI-assisted practice, performance evaluation, and personalized skill development.
 
 ---
 
-## IBM Granite Integration
-
-The app uses `ibm-watsonx-ai` SDK:
-
-```python
-from ibm_watsonx_ai import APIClient, Credentials
-from ibm_watsonx_ai.foundation_models import ModelInference
-
-credentials = Credentials(url=WATSONX_URL, api_key=WATSONX_API_KEY)
-client = APIClient(credentials)
-model = ModelInference(model_id="ibm/granite-13b-instruct-v2", ...)
-```
-
-Credentials are **only** read from environment variables — never hardcoded.
-
----
-
-## RAG Architecture
-
-```
-User query
-    ↓
-FAISS index (sentence-transformers embeddings of interview_kb.py)
-    ↓
-Top-K relevant passages retrieved
-    ↓
-Appended to Granite prompt as context
-    ↓
-IBM Granite generates personalised response
-```
-
-Falls back to keyword search if `sentence-transformers` / `faiss-cpu` are unavailable.
-
----
-
-## Environment Variables
-
-| Variable | Required | Description |
-|---|---|---|
-| `WATSONX_API_KEY` | For live AI | IBM Cloud API key |
-| `WATSONX_PROJECT_ID` | For live AI | watsonx.ai project ID |
-| `WATSONX_URL` | Optional | Defaults to `us-south.ml.cloud.ibm.com` |
-| `GRANITE_MODEL_ID` | Optional | Defaults to `ibm/granite-13b-instruct-v2` |
-| `EMBEDDING_MODEL` | Optional | Defaults to `all-MiniLM-L6-v2` |
-| `DATASET_PATH` | Optional | Defaults to `data/job_resume_fit.csv` |
-
----
-
-## Tech Stack
-
-- **Python 3.10+**
-- **Streamlit** — UI framework
-- **IBM Granite** — via `ibm-watsonx-ai`
-- **FAISS** + **sentence-transformers** — RAG retrieval
-- **PyMuPDF** — PDF parsing
-- **python-docx** — DOCX parsing
-- **Pandas + scikit-learn** — Dataset analysis
-- **Plotly** — Interactive charts
-
----
-
-## License
-
-MIT — see `LICENSE` for details.
+<p align="center">
+  <b>Built with ❤️ for AICTE × IBM Edunet Internship</b>
+</p>
